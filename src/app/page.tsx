@@ -6,5 +6,5 @@ export const metadata: Metadata = {
 }
 
 export default function Home() {
-  return <main>Xin chào Nguyen Quan in enviroment Staging</main>
+  return <main>Xin chào Staging</main>
 }
