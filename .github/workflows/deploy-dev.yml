@@ -1,10 +1,10 @@
-name: Deploy Production
+name: Deploy Dev
 
 on:
   push:
-    branches: ['master']
+    branches: ['dev']
   pull_request:
-    branches: ['master']
+    branches: ['dev']
 
 jobs:
   build:
@@ -17,7 +17,7 @@ jobs:
           node-version: 22.22.0
           cache: 'npm'
       - name: Create .env file
-        run: echo "${{secrets.ENV_PRODUCTION}}" > .env
+        run: echo "${{secrets.ENV_DEV}}" > .env
       - run: npm i --force
       - run: npm run build
   deploy: 
@@ -27,17 +27,17 @@ jobs:
       - name: Executing remote ssh commands using password
         uses: appleboy/ssh-action@v1.2.0
         with:
-          host: ${{ secrets.HOST_PRODUCTION }}
-          username: ${{ secrets.USERNAME_PRODUCTION }}
-          password: ${{ secrets.PASSWORD_PRODUCTION }}
-          port: ${{ secrets.PORT_PRODUCTION }}
+          host: ${{ secrets.HOST_DEV }}
+          username: ${{ secrets.USERNAME_DEV }}
+          password: ${{ secrets.PASSWORD_DEV }}
+          port: ${{ secrets.PORT_DEV }}
           script: |
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
-            cd ~/main/deploy-next-client
+            cd ~/dev/deploy-next-client
             git fetch --all
-            git reset --hard origin/master
-            echo "${{secrets.ENV_PRODUCTION}}" > .env
+            git reset --hard origin/dev
+            echo "${{secrets.ENV_DEV}}" > .env
             npm i --force
             npm run build
-            pm2 restart NextJs
+            pm2 restart Dev_NextJs

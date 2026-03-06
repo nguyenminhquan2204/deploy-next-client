@@ -1,8 +1,8 @@
 module.exports = {
   apps: [
     {
-      name: 'NextJs',
-      script: 'PORT=3002 npm run start'
+      name: 'Dev_NextJs',
+      script: 'PORT=3003 npm run start'
     }
   ]
 }
