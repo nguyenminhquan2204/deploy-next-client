@@ -1,0 +1,43 @@
+name: Deploy Stage
+
+on:
+  push:
+    branches: ['stage']
+  pull_request:
+    branches: ['stage']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-vesion }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.22.0
+          cache: 'npm'
+      - name: Create .env file
+        run: echo "${{secrets.ENV_STAGE}}" > .env
+      - run: npm i --force
+      - run: npm run build
+  deploy: 
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Executing remote ssh commands using password
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.HOST_STAGE }}
+          username: ${{ secrets.USERNAME_STAGE }}
+          password: ${{ secrets.PASSWORD_STAGE }}
+          port: ${{ secrets.PORT_STAGE }}
+          script: |
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            cd ~/stage/deploy-next-client
+            git fetch --all
+            git reset --hard origin/STAGE
+            echo "${{secrets.ENV_STAGE}}" > .env
+            npm i --force
+            npm run build
+            pm2 restart Stage_NextJs
