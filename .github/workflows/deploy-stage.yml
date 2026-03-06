@@ -36,7 +36,7 @@ jobs:
             source ~/.nvm/nvm.sh
             cd ~/stage/deploy-next-client
             git fetch --all
-            git reset --hard origin/STAGE
+            git reset --hard origin/stage
             echo "${{secrets.ENV_STAGE}}" > .env
             npm i --force
             npm run build
