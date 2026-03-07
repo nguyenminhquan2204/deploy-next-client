@@ -6,7 +6,5 @@ COPY . .
 
 RUN npm i --force
 RUN npm run build
-RUN cp -r public .next/standalone/ && cp -r .next/static .next/standalone/.next/
-RUN rm -rf node_modules src public 
 
-CMD ["node", ".next/standalone/server.js"]
+CMD ["npm", "run", "start"]
