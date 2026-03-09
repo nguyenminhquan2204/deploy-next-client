@@ -32,8 +32,8 @@ jobs:
           port: ${{ secrets.PORT_PRODUCTION }}
           script: |
             docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
-            docker pull quannmmn/nextjs:v0
-            docker stop prod-nextjs
-            docker rm prod-nextjs
-            docker run -dp 3002:3000 --name prod-nextjs quannmmn/nextjs:v0
-            docker image prune -f
+            sudo docker pull quannmmn/nextjs:v0
+            sudo docker stop prod-nextjs
+            sudo docker rm prod-nextjs
+            sudo docker run -dp 3002:3000 --name prod-nextjs quannmmn/nextjs:v0
+            sudo docker image prune -f
